@@ -1,2 +1,2 @@
 # AP-CSP-CPT
-CPT for AP test
+Inventory management system
