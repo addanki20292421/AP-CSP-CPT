@@ -2,6 +2,23 @@ items = {} # stores items
 running = True # keeps the program running until the user dosent want it to anymore
 
 
+def select_itemtype(text, items):
+    item_types = items.keys()
+    number = 1
+    itemtype_number_thingy = {}
+    for item_type in item_types:
+        print(f"{number}) {item_type}")
+        itemtype_number_thingy[str(number)] = item_type
+        number += 1
+    
+    item_to_change = input(text)
+    # validate that the user wants to select something that exists
+    if not item_to_change in itemtype_number_thingy.keys():
+        print("item_to_change", " is not a item type that exists.\n\n")
+        return
+    item_to_change = itemtype_number_thingy[item_to_change]
+    return item_to_change
+
 while running:
     # show the user a menu for what they can fo
     print("\n\n\tInventory Management System")
@@ -14,17 +31,11 @@ while running:
         running = False
     # show the inventory
     elif user_input == "1":
-        print(items)
+        for item_type in items:
+            print(f"{item_type}: {items[item_type]}")
     # the user selected to update an item
     elif user_input == "2":
-        item_types = items.keys()
-        print(item_types)
-        
-        item_to_change = input("what item do you want to update? ")
-        # validate that the user wants to add something that exists
-        if not item_to_change in item_types:
-            print("\"",item_to_change, "\"", " is not a item type that exists.\n\n")
-            continue
+        item_to_change = select_itemtype("what item to change? ", items)
         
         amount_to_change = input("How much has the amount changed(represent loss with negative)? ")
 
@@ -48,12 +59,8 @@ while running:
             print("Exiting Item Type Management\n")
             continue
         elif itm_user_input == "1":
-            print(items.keys())
-            itemtype_to_delete = input("What item type do you want to delete? ")
+            itemtype_to_delete = select_itemtype("what item to delete? ", items)
             # make sure the user isnt deleting something that is nonexistent
-            if not itemtype_to_delete in items.keys():
-                print("invalid item type")
-                continue
             del items[itemtype_to_delete]
             print(f"Successfully deleted \"{itemtype_to_delete}\" and all data relating to it\n\n")
         elif itm_user_input == "2":
@@ -68,5 +75,6 @@ while running:
         # in case the user didnt select a option that exists
         print("invalid option")
 
+        
         
 
